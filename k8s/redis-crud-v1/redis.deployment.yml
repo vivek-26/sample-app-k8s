@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: redis
-          image: redis:6.0.10-alpine
+          image: redis:6.0-alpine
           resources:
             requests:
               memory: "64Mi"
