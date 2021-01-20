@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-deployment
+  namespace: dev
+  labels:
+    type: cache
+    tier: backend
+spec:
+  selector:
+    matchLabels:
+      type: cache
+      tier: backend
+  template:
+    metadata:
+      name: redis-pod
+      labels:
+        type: cache
+        tier: backend
+    spec:
+      containers:
+        - name: redis
+          image: redis:6.0.10-alpine
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "0.5"
+            limits:
+              memory: "128Mi"
+              cpu: "1"
+      restartPolicy: Always

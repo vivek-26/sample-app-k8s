@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  namespace: dev
+  labels:
+    type: cache
+    tier: backend
+spec:
+  type: ClusterIP
+  selector:
+    type: cache
+    tier: backend
+  ports:
+    - port: 6379
+      targetPort: 6379

@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-crud-deployment
+  namespace: dev
+  labels:
+    type: application
+    tier: backend
+spec:
+  selector:
+    matchLabels:
+      type: api-server-go
+      tier: backend
+  template:
+    metadata:
+      name: redis-crud-pod
+      labels:
+        type: api-server-go
+        tier: backend
+    spec:
+      containers:
+        - name: redis-crud-app
+          image: localhost:32000/redis-crud:v1
+          args:
+            - /redis-crud-v1/application
+          envFrom:
+            - configMapRef:
+                name: redis-crud-configmap
+                optional: false
+          livenessProbe:
+            httpGet:
+              path: /healthcheck
+              port: 9000
+            initialDelaySeconds: 3
+            periodSeconds: 3
+          readinessProbe:
+            httpGet:
+              path: /healthcheck
+              port: 9000
+            initialDelaySeconds: 3
+            periodSeconds: 3
+          resources:
+            requests: # at least
+              memory: "64Mi"
+              cpu: "0.5"
+            limits: # at most
+              memory: "128Mi"
+              cpu: "1"
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always

@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redis-crud-configmap
+  namespace: dev
+  labels:
+    tier: backend
+data:
+  SERVER_PORT: "9000"
+  TTL_SECS: "788923800"
